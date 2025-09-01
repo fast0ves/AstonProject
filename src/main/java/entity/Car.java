@@ -3,12 +3,17 @@ created by Ivanov Nikita
 */
 package entity;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Car {
     private double power;
     private int yearOfProduction;
     private String model;
+
+    private static final Comparator<Car> BY_POWER =Comparator.nullsFirst(Comparator.comparing(Car::getPower));
+    private static final Comparator<Car> BY_YEAR = Comparator.nullsFirst(Comparator.comparing(Car::getYearOfProduction));
+    private static final Comparator<Car> BY_MODEL = Comparator.nullsFirst(Comparator.comparing(Car::getModel));
 
     public Car(CarBuilder carBuilder) {
         this.power = carBuilder.power;

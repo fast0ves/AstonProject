@@ -3,6 +3,7 @@ created by Ivanov Nikita
 */
 package entity;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Book {
@@ -10,6 +11,10 @@ public class Book {
     private String author;
     private String title;
     private int quantityPage;
+
+    private static final Comparator<Book> BY_AUTHOR = Comparator.nullsFirst(Comparator.comparing(Book::getAuthor));
+    private static final Comparator<Book> BY_TITLE = Comparator.nullsFirst(Comparator.comparing(Book::getTitle));
+    private static final Comparator<Book> BY_PAGE = Comparator.nullsFirst(Comparator.comparing(Book::getQuantityPage));
 
     public Book(BookBuilder bookBuilder) {
         this.author = bookBuilder.author;

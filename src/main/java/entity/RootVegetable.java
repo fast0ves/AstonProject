@@ -4,12 +4,20 @@ created by Ivanov Nikita
 
 package entity;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class RootVegetable {
     private String type;
     private double weight;
     private String color;
+
+    private static final Comparator<RootVegetable> BY_TYPE = Comparator.nullsFirst(
+            Comparator.comparing(RootVegetable::getType));
+    private static final Comparator<RootVegetable> BY_WEIGHT = Comparator.nullsFirst(
+            Comparator.comparing(RootVegetable::getWeight));
+    private static final Comparator<RootVegetable> BY_COLOR = Comparator.nullsFirst(
+            Comparator.comparing(RootVegetable::getColor));
 
     public RootVegetable(RootVegetableBuilder rootVegetableBuilder) {
         this.type = rootVegetableBuilder.type;
