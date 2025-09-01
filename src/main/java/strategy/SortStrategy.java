@@ -20,10 +20,4 @@ public interface SortStrategy<T> {
      * @param comparator компаратор, определяющий порядок сортировки
      */
     void sort(List<T> list, Comparator<T> comparator);
-
-    /**
-     * Возвращает название алгоритма сортировки.
-     * @return строковое представление название алгоритма
-     */
-    String getAlgorithmName();
 }
