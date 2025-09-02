@@ -11,7 +11,7 @@ public class Car {
     private int yearOfProduction;
     private String model;
 
-    private static final Comparator<Car> BY_POWER =Comparator.nullsFirst(Comparator.comparing(Car::getPower));
+    private static final Comparator<Car> BY_POWER = Comparator.nullsFirst(Comparator.comparing(Car::getPower));
     private static final Comparator<Car> BY_YEAR = Comparator.nullsFirst(Comparator.comparing(Car::getYearOfProduction));
     private static final Comparator<Car> BY_MODEL = Comparator.nullsFirst(Comparator.comparing(Car::getModel));
 
@@ -44,7 +44,7 @@ public class Car {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
         return (Objects.equals(model, car.getModel()) && yearOfProduction == car.getYearOfProduction() &&
