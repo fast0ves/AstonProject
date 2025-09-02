@@ -1,26 +1,16 @@
-/**
- created by Shorokhov Andrey
- */
-
 package data;
 
 import java.util.List;
 
-/**
- * Интерфейс для поставщиков данных различных типов
- * @param <T> тип данных, которые предоставляет провайдер
- */
-public interface DataProvider<T> {
+public class DataProvider {
 
-    /**
-     * Основной метод получения данных
-     * @return список объектов типа T
-     */
-    List<T> provideData();
+    private DataProviderStrategy<Object> dataProviderStrategy;
 
-    /**
-     * Возвращает тип провайдера
-     * @return строковое представление типа провайдера
-     */
-    String getProviderType();
+    public DataProvider(DataProviderStrategy<Object> dataProviderStrategy) {
+        this.dataProviderStrategy = dataProviderStrategy;
+    }
+
+    public List<Object> provideData(int length, String dataType) {
+        return dataProviderStrategy.provideData(length, dataType);
+    }
 }
