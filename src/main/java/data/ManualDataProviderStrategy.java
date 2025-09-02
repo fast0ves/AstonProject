@@ -3,6 +3,7 @@ package data;
 import entity.Book;
 import entity.Car;
 import entity.RootVegetable;
+import interfaces.DataProviderStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
