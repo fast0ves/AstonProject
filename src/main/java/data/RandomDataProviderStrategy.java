@@ -4,6 +4,7 @@ import entity.Book;
 import entity.Car;
 import entity.RootVegetable;
 import interfaces.DataProviderStrategy;
+import validator.Validator;
 
 import java.io.BufferedReader;
 import java.io.File;
