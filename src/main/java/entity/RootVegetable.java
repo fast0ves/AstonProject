@@ -18,6 +18,8 @@ public class RootVegetable {
             Comparator.comparing(RootVegetable::getWeight));
     private static final Comparator<RootVegetable> BY_COLOR = Comparator.nullsFirst(
             Comparator.comparing(RootVegetable::getColor));
+    private static final Comparator<RootVegetable> BY_ALL_FIELDS = BY_TYPE.thenComparing(BY_COLOR)
+            .thenComparing(BY_WEIGHT);
 
     public RootVegetable(RootVegetableBuilder rootVegetableBuilder) {
         this.type = rootVegetableBuilder.type;

@@ -15,6 +15,7 @@ public class Book {
     private static final Comparator<Book> BY_AUTHOR = Comparator.nullsFirst(Comparator.comparing(Book::getAuthor));
     private static final Comparator<Book> BY_TITLE = Comparator.nullsFirst(Comparator.comparing(Book::getTitle));
     private static final Comparator<Book> BY_PAGE = Comparator.nullsFirst(Comparator.comparing(Book::getQuantityPage));
+    private static final Comparator<Book> BY_ALL_FIELDS = BY_AUTHOR.thenComparing(BY_TITLE).thenComparing(BY_PAGE);
 
     public Book(BookBuilder bookBuilder) {
         this.author = bookBuilder.author;
