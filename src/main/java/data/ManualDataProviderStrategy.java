@@ -4,6 +4,7 @@ import entity.Book;
 import entity.Car;
 import entity.RootVegetable;
 import interfaces.DataProviderStrategy;
+import validator.Validator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class ManualDataProviderStrategy implements DataProviderStrategy<Object> 
                                 .setTitle(parameters[1])
                                 .setQuantityPage(Integer.parseInt(parameters[2]))
                                 .build();
-                        data.add(book);
+                        if (Validator.bookValid(book)) data.add(book);
+                        else System.out.println("Проверьте правильность введенных данных");
                         break;
                     case "cars":
                         Car car = new Car.CarBuilder()
@@ -35,7 +37,8 @@ public class ManualDataProviderStrategy implements DataProviderStrategy<Object> 
                                 .setYearOfProduction(Integer.parseInt(parameters[1]))
                                 .setModel(parameters[2])
                                 .build();
-                        data.add(car);
+                        if (Validator.carValid(car)) data.add(car);
+                        else System.out.println("Проверьте правильность введенных данных");
                         break;
                     case "vegetables":
                         RootVegetable rootVegetable = new RootVegetable.RootVegetableBuilder()
@@ -43,7 +46,8 @@ public class ManualDataProviderStrategy implements DataProviderStrategy<Object> 
                                 .setWeight(Double.parseDouble(parameters[1]))
                                 .setColor(parameters[2])
                                 .build();
-                        data.add(rootVegetable);
+                        if (Validator.vegetableValid(rootVegetable)) data.add(rootVegetable);
+                        else System.out.println("Проверьте правильность введенных данных");
                         break;
                 }
             }
