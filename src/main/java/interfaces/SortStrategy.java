@@ -2,7 +2,7 @@
  created by Shorokhov Andrey
  */
 
-package strategy;
+package interfaces;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,5 +1,7 @@
 package data;
 
+import interfaces.DataProviderStrategy;
+
 import java.util.List;
 
 public class DataProvider {

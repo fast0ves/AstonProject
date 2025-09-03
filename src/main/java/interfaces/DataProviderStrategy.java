@@ -2,7 +2,7 @@
  * created by Shorokhov Andrey
  */
 
-package data;
+package interfaces;
 
 import java.util.List;
 
