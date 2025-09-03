@@ -14,6 +14,7 @@ public class Car {
     private static final Comparator<Car> BY_POWER = Comparator.nullsFirst(Comparator.comparing(Car::getPower));
     private static final Comparator<Car> BY_YEAR = Comparator.nullsFirst(Comparator.comparing(Car::getYearOfProduction));
     private static final Comparator<Car> BY_MODEL = Comparator.nullsFirst(Comparator.comparing(Car::getModel));
+    private static final Comparator<Car> BY_ALL_FIELDS = BY_MODEL.thenComparing(BY_YEAR).thenComparing(BY_POWER);
 
     public Car(CarBuilder carBuilder) {
         this.power = carBuilder.power;
