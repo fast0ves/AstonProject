@@ -12,7 +12,8 @@ public class DataProvider {
         this.dataProviderStrategy = dataProviderStrategy;
     }
 
-    public List<Object> provideData(int length, String dataType) {
+    public List provideData(int length, String dataType) {
         return dataProviderStrategy.provideData(length, dataType);
     }
+
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RandomDataProviderStrategy implements DataProviderStrategy<Object> {
+public class RandomDataProviderStrategy implements DataProviderStrategy {
     private String filePath;
 
     public RandomDataProviderStrategy(String filePath) {
@@ -24,8 +24,8 @@ public class RandomDataProviderStrategy implements DataProviderStrategy<Object> 
     }
 
     @Override
-    public List<Object> provideData(int length, String dataType) {
-        List<Object> data = new ArrayList<>();
+    public List provideData(int length, String dataType) {
+        List data = new ArrayList<>();
         Random random = new Random();
         if (Files.exists(Path.of(filePath))) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {

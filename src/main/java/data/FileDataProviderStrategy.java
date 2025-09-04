@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileDataProviderStrategy implements DataProviderStrategy<Object> {
+public class FileDataProviderStrategy implements DataProviderStrategy {
     private String filePath;
 
     public FileDataProviderStrategy(String filePath) {
@@ -22,8 +22,8 @@ public class FileDataProviderStrategy implements DataProviderStrategy<Object> {
     }
 
     @Override
-    public List<Object> provideData(int length, String dataType) {
-        List<Object> data = new ArrayList<>();
+    public List provideData(int length, String dataType) {
+        List data = new ArrayList<>();
         if (Files.exists(Path.of(filePath))) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
                 String line;

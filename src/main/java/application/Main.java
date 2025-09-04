@@ -1,6 +1,557 @@
 package application;
 
+import algorithm.BinarySearch;
+import algorithm.MergeSort;
+import data.DataProvider;
+import data.FileDataProviderStrategy;
+import data.ManualDataProviderStrategy;
+import data.RandomDataProviderStrategy;
+import entity.Book;
+import entity.Car;
+import entity.RootVegetable;
+import validator.Validator;
+
+import java.io.File;
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
+
+    private static void mainMenu() {
+        System.out.println("""
+                Выберите с какими данными будем работать:
+                1.Книги
+                2.Машины
+                3.Корнеплоды
+                0.Выход""");
+    }
+
+    private static void dataWriterMenu() {
+        System.out.println("""
+                Как будем заполнять данные?
+                1.Рандомное заполнение данных
+                2.Заполнение вручную вручную
+                3.Заполнеие данных из файла
+                0.Назад""");
+    }
+
+    private static void dataWorkMenu() {
+        System.out.println("""
+                1.Отсортировать данные
+                2.Поиск книги
+                0.Назад""");
+    }
+
+    private static final String pathOfBook = "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "books";
+    private static final String pathOfCar = "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "cars";
+    private static final String pathOfVegetables = "src" + File.separator + "main" + File.separator
+            + "resources" + File.separator + "vegetables";
+
     public static void main(String[] args) {
+        boolean runFlag = true;
+        boolean backToMainMenu = false;
+        List data;
+        int length;
+        MergeSort mergeSort = new MergeSort<>();
+        BinarySearch binarySearch = new BinarySearch();
+        while (runFlag) {
+            mainMenu();
+            String dataType;
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.hasNextInt()) {
+                int userPick = scanner.nextInt();
+                switch (userPick) {
+                    case 1:
+                        dataType = "books";
+                        dataWriterMenu();
+                        if (scanner.hasNextInt()) {
+                            userPick = scanner.nextInt();
+                            switch (userPick) {
+                                case 1:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        DataProvider randDataProvider = new DataProvider(
+                                                new RandomDataProviderStrategy(pathOfBook));
+                                        data = randDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, Book.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите книгу, которую хотите найти " +
+                                                                    "(Автор, название, количество страниц)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkNumber(parameters[2])) {
+                                                                Book searchBook = new Book.BookBuilder()
+                                                                        .setAuthor(parameters[0])
+                                                                        .setTitle(parameters[1])
+                                                                        .setQuantityPage(Integer.parseInt(parameters[2]))
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data, searchBook,
+                                                                        Book.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 2:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        scanner.nextLine();
+                                        System.out.println("При запонение данных придерживайтесь данного формата: " +
+                                                "(Автор, название, количество страниц)");
+                                        DataProvider dataProvider = new DataProvider(
+                                                new ManualDataProviderStrategy(scanner));
+                                        data = dataProvider.provideData(length, dataType);
+                                        System.out.println("Данные заполнены");
+                                        System.out.println(data);
+                                        backToMainMenu = false;
+                                        while (!backToMainMenu) {
+                                            dataWorkMenu();
+                                            if (scanner.hasNextInt()) {
+                                                userPick = scanner.nextInt();
+                                                switch (userPick) {
+                                                    case 1:
+                                                        System.out.println("Отсортированный список:");
+                                                        mergeSort.sort(data, Book.getComparator());
+                                                        System.out.println(data);
+                                                        break;
+                                                    case 2:
+                                                        System.out.println("Введите книгу, которую хотите найти " +
+                                                                "(Автор, название, количество страниц)");
+                                                        scanner.nextLine();
+                                                        String input = scanner.nextLine();
+                                                        String[] parameters = input.split(", ");
+                                                        if (parameters.length == 3 &&
+                                                                Validator.checkNumber(parameters[2])) {
+                                                            Book searchBook = new Book.BookBuilder()
+                                                                    .setAuthor(parameters[0])
+                                                                    .setTitle(parameters[1])
+                                                                    .setQuantityPage(Integer.parseInt(parameters[2]))
+                                                                    .build();
+                                                            System.out.println(binarySearch.search(data, searchBook,
+                                                                    Book.getComparator()));
+                                                        } else
+                                                            System.out.println("Числовое значение не может быть словом");
+                                                        break;
+                                                    case 0:
+                                                        backToMainMenu = true;
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 3:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        System.out.println("Введите путь до файла");
+                                        scanner.nextLine();
+                                        String filePath = scanner.nextLine();
+                                        DataProvider fileDataProvider = new DataProvider(
+                                                new FileDataProviderStrategy(filePath));
+                                        data = fileDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, Book.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите книгу, которую хотите найти " +
+                                                                    "(Автор, название, количество страниц)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkNumber(parameters[2])) {
+                                                                Book searchBook = new Book.BookBuilder()
+                                                                        .setAuthor(parameters[0])
+                                                                        .setTitle(parameters[1])
+                                                                        .setQuantityPage(Integer.parseInt(parameters[2]))
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data, searchBook,
+                                                                        Book.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 0:
+                                    break;
+                            }
+                        } else System.out.println("Введите число 0-3");
+                        break;
+                    case 2:
+                        dataType = "cars";
+                        dataWriterMenu();
+                        if (scanner.hasNextInt()) {
+                            userPick = scanner.nextInt();
+                            switch (userPick) {
+                                case 1:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        DataProvider randDataProvider = new DataProvider(
+                                                new RandomDataProviderStrategy(pathOfCar));
+                                        data = randDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, Car.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите машину, которую хотите найти " +
+                                                                    "(Мощность(число), год выпуска, модель)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkNumber(parameters[1]) &&
+                                                                    Validator.checkDouble(parameters[0])) {
+                                                                Car searchCar = new Car.CarBuilder()
+                                                                        .setPower(Double.parseDouble(parameters[0]))
+                                                                        .setYearOfProduction(Integer.parseInt(parameters[1]))
+                                                                        .setModel(parameters[2])
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data, searchCar,
+                                                                        Car.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 2:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        scanner.nextLine();
+                                        System.out.println("При запонение данных придерживайтесь данного формата: " +
+                                                "(Мощность(число), год выпуска, модель)");
+                                        DataProvider dataProvider = new DataProvider(
+                                                new ManualDataProviderStrategy(scanner));
+                                        data = dataProvider.provideData(length, dataType);
+                                        System.out.println("Данные заполнены");
+                                        System.out.println(data);
+                                        backToMainMenu = false;
+                                        while (!backToMainMenu) {
+                                            dataWorkMenu();
+                                            if (scanner.hasNextInt()) {
+                                                userPick = scanner.nextInt();
+                                                switch (userPick) {
+                                                    case 1:
+                                                        System.out.println("Отсортированный список:");
+                                                        mergeSort.sort(data, Car.getComparator());
+                                                        System.out.println(data);
+                                                        break;
+                                                    case 2:
+                                                        System.out.println("Введите машину, которую хотите найти " +
+                                                                "(Мощность(число), год выпуска, модель)");
+                                                        scanner.nextLine();
+                                                        String input = scanner.nextLine();
+                                                        String[] parameters = input.split(", ");
+                                                        if (parameters.length == 3 &&
+                                                                Validator.checkNumber(parameters[1]) &&
+                                                                Validator.checkDouble(parameters[0])) {
+                                                            Car searchCar = new Car.CarBuilder()
+                                                                    .setPower(Double.parseDouble(parameters[0]))
+                                                                    .setYearOfProduction(Integer.parseInt(parameters[1]))
+                                                                    .setModel(parameters[2])
+                                                                    .build();
+                                                            System.out.println(binarySearch.search(data, searchCar,
+                                                                    Car.getComparator()));
+                                                        } else
+                                                            System.out.println("Числовое значение не может быть словом");
+                                                        break;
+                                                    case 0:
+                                                        backToMainMenu = true;
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 3:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        System.out.println("Введите путь до файла");
+                                        scanner.nextLine();
+                                        String filePath = scanner.nextLine();
+                                        DataProvider fileDataProvider = new DataProvider(
+                                                new FileDataProviderStrategy(filePath));
+                                        data = fileDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, Car.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите машину, которую хотите найти " +
+                                                                    "(Мощность(число), год выпуска, модель)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkNumber(parameters[1]) &&
+                                                                    Validator.checkDouble(parameters[0])) {
+                                                                Car searchCar = new Car.CarBuilder()
+                                                                        .setPower(Double.parseDouble(parameters[0]))
+                                                                        .setYearOfProduction(Integer.parseInt(parameters[1]))
+                                                                        .setModel(parameters[2])
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data, searchCar,
+                                                                        Car.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 0:
+                                    break;
+                            }
+                        } else System.out.println("Введите число 0-3");
+                        break;
+                    case 3:
+                        dataType = "vegetables";
+                        dataWriterMenu();
+                        if (scanner.hasNextInt()) {
+                            userPick = scanner.nextInt();
+                            switch (userPick) {
+                                case 1:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        DataProvider randDataProvider = new DataProvider(
+                                                new RandomDataProviderStrategy(pathOfVegetables));
+                                        data = randDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, RootVegetable.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите корнеплод, который хотите найти " +
+                                                                    "(Тип, вес(число), цвет)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkDouble(parameters[1])) {
+                                                                RootVegetable searchRootVegetable = new RootVegetable
+                                                                        .RootVegetableBuilder()
+                                                                        .setType(parameters[0])
+                                                                        .setWeight(Double.parseDouble(parameters[1]))
+                                                                        .setColor(parameters[2])
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data,
+                                                                        searchRootVegetable,
+                                                                        RootVegetable.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 2:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        scanner.nextLine();
+                                        System.out.println("При запонение данных придерживайтесь данного формата: " +
+                                                "(Тип, вес(число), цвет)");
+                                        DataProvider dataProvider = new DataProvider(
+                                                new ManualDataProviderStrategy(scanner));
+                                        data = dataProvider.provideData(length, dataType);
+                                        System.out.println("Данные заполнены");
+                                        System.out.println(data);
+                                        backToMainMenu = false;
+                                        while (!backToMainMenu) {
+                                            dataWorkMenu();
+                                            if (scanner.hasNextInt()) {
+                                                userPick = scanner.nextInt();
+                                                switch (userPick) {
+                                                    case 1:
+                                                        System.out.println("Отсортированный список:");
+                                                        mergeSort.sort(data, RootVegetable.getComparator());
+                                                        System.out.println(data);
+                                                        break;
+                                                    case 2:
+                                                        System.out.println("Введите корнеплод, который хотите найти " +
+                                                                "(Тип, вес(число), цвет)");
+                                                        scanner.nextLine();
+                                                        String input = scanner.nextLine();
+                                                        String[] parameters = input.split(", ");
+                                                        if (parameters.length == 3 && Validator.checkDouble(parameters[1])) {
+                                                            RootVegetable searchRootVegetable = new RootVegetable
+                                                                    .RootVegetableBuilder()
+                                                                    .setType(parameters[0])
+                                                                    .setWeight(Double.parseDouble(parameters[1]))
+                                                                    .setColor(parameters[2])
+                                                                    .build();
+                                                            System.out.println(binarySearch.search(data, searchRootVegetable,
+                                                                    RootVegetable.getComparator()));
+                                                        } else
+                                                            System.out.println("Числовое значение не может быть словом");
+                                                        break;
+                                                    case 0:
+                                                        backToMainMenu = true;
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 3:
+                                    System.out.println("Введите размер списка");
+                                    if (scanner.hasNextInt()) {
+                                        length = scanner.nextInt();
+                                        System.out.println("Введите путь до файла");
+                                        scanner.nextLine();
+                                        String filePath = scanner.nextLine();
+                                        DataProvider fileDataProvider = new DataProvider(
+                                                new FileDataProviderStrategy(filePath));
+                                        data = fileDataProvider.provideData(length, dataType);
+                                        if (!data.isEmpty()) {
+                                            System.out.println("Данные заполнены");
+                                            System.out.println(data);
+                                            backToMainMenu = false;
+                                            while (!backToMainMenu) {
+                                                dataWorkMenu();
+                                                if (scanner.hasNextInt()) {
+                                                    userPick = scanner.nextInt();
+                                                    switch (userPick) {
+                                                        case 1:
+                                                            System.out.println("Отсортированный список:");
+                                                            mergeSort.sort(data, RootVegetable.getComparator());
+                                                            System.out.println(data);
+                                                            break;
+                                                        case 2:
+                                                            System.out.println("Введите корнеплод, который хотите найти " +
+                                                                    "(Тип, вес(число), цвет)");
+                                                            scanner.nextLine();
+                                                            String input = scanner.nextLine();
+                                                            String[] parameters = input.split(", ");
+                                                            if (parameters.length == 3 &&
+                                                                    Validator.checkDouble(parameters[1])) {
+                                                                RootVegetable searchRootVegetable = new RootVegetable
+                                                                        .RootVegetableBuilder()
+                                                                        .setType(parameters[0])
+                                                                        .setWeight(Double.parseDouble(parameters[1]))
+                                                                        .setColor(parameters[2])
+                                                                        .build();
+                                                                System.out.println(binarySearch.search(data,
+                                                                        searchRootVegetable,
+                                                                        RootVegetable.getComparator()));
+                                                            } else
+                                                                System.out.println("Числовое значение не может быть словом");
+                                                            break;
+                                                        case 0:
+                                                            backToMainMenu = true;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else System.out.println("Введите число");
+                                    break;
+                                case 0:
+                                    break;
+                            }
+                        } else System.out.println("Введите число 0-3");
+                        break;
+                    case 0:
+                        runFlag = false;
+                        break;
+                }
+            } else System.out.println("Введите число 0-3");
+        }
     }
 }
