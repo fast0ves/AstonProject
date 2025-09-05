@@ -11,6 +11,10 @@ public class ThreadPoolManager {
     private final ExecutorService executor;
 
     public ThreadPoolManager(ExecutorService executor) {
+        this.executor = executor;
+    }
+
+    public ThreadPoolManager() {
         this.executor = Executors.newFixedThreadPool(2);
     }
 
