@@ -2,33 +2,26 @@ package thread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Менеджер пула потоков для сортировки.
- * Создает минимум 2 потока, выполнение в ThreadPool
- */
 public class ThreadPoolManager {
     private final ExecutorService executor;
-
-    public ThreadPoolManager(ExecutorService executor) {
-        this.executor = executor;
-    }
 
     public ThreadPoolManager() {
         this.executor = Executors.newFixedThreadPool(2);
     }
 
-    /**
-     * Выполняет задачу в пуле потоков
-     * @param task задача для выполнения
-     */
     public void execute(Runnable task) {
         executor.execute(task);
     }
 
-    /**
-     * Завершает работу пула потоков
-     */
+    public void awaitTermination() throws InterruptedException {
+        executor.shutdown();
+        if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+            executor.shutdownNow();
+        }
+    }
+
     public void shutdown() {
         executor.shutdown();
     }
