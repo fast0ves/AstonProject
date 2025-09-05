@@ -49,7 +49,7 @@ public class MergeSort<T> implements SortStrategy<T> {
      * @param right правый отсортированный список
      * @param comparator компаратор для сравнения элементов
      */
-    private void combine(List<T> list, List<T> left, List<T> right, Comparator<T> comparator) {
+    public void combine(List<T> list, List<T> left, List<T> right, Comparator<T> comparator) {
 
         int leftIndex = 0;
         int rightIndex = 0;

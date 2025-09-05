@@ -9,13 +9,22 @@ import data.RandomDataProviderStrategy;
 import entity.Book;
 import entity.Car;
 import entity.RootVegetable;
+import thread.SortingService;
 import validator.Validator;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    private static final String pathOfBook = "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "books";
+    private static final String pathOfCar = "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "cars";
+    private static final String pathOfVegetables = "src" + File.separator + "main" + File.separator
+            + "resources" + File.separator + "vegetables";
 
     private static void mainMenu() {
         System.out.println("""
@@ -42,14 +51,8 @@ public class Main {
                 0.Назад""");
     }
 
-    private static final String pathOfBook = "src" + File.separator + "main" + File.separator + "resources" +
-            File.separator + "books";
-    private static final String pathOfCar = "src" + File.separator + "main" + File.separator + "resources" +
-            File.separator + "cars";
-    private static final String pathOfVegetables = "src" + File.separator + "main" + File.separator
-            + "resources" + File.separator + "vegetables";
-
     public static void main(String[] args) {
+
         boolean runFlag = true;
         boolean backToMainMenu = false;
         List data;
@@ -87,7 +90,9 @@ public class Main {
                                                     switch (userPick) {
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, Book.getComparator());
+                                                            SortingService<Book> bookSortingService = new SortingService<>();
+                                                            bookSortingService.sortInTwoThreads(new ArrayList<>(data), Book.getComparator(), "книг");
+                                                            bookSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
                                                         case 2:
@@ -117,6 +122,7 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 2:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
@@ -138,9 +144,12 @@ public class Main {
                                                 switch (userPick) {
                                                     case 1:
                                                         System.out.println("Отсортированный список:");
-                                                        mergeSort.sort(data, Book.getComparator());
+                                                        SortingService<Book> bookSortingService = new SortingService<>();
+                                                        bookSortingService.sortInTwoThreads(new ArrayList<>(data), Book.getComparator(), "книг");
+                                                        bookSortingService.shutdown();
                                                         System.out.println(data);
                                                         break;
+
                                                     case 2:
                                                         System.out.println("Введите книгу, которую хотите найти " +
                                                                 "(Автор, название, количество страниц)");
@@ -186,11 +195,15 @@ public class Main {
                                                 if (scanner.hasNextInt()) {
                                                     userPick = scanner.nextInt();
                                                     switch (userPick) {
+
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, Book.getComparator());
+                                                            SortingService<Book> bookSortingService = new SortingService<>();
+                                                            bookSortingService.sortInTwoThreads(new ArrayList<>(data), Book.getComparator(), "книг");
+                                                            bookSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
+
                                                         case 2:
                                                             System.out.println("Введите книгу, которую хотите найти " +
                                                                     "(Автор, название, количество страниц)");
@@ -209,6 +222,7 @@ public class Main {
                                                             } else
                                                                 System.out.println("Числовое значение не может быть словом");
                                                             break;
+
                                                         case 0:
                                                             backToMainMenu = true;
                                                             break;
@@ -218,17 +232,20 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 0:
                                     break;
                             }
                         } else System.out.println("Введите число 0-3");
                         break;
+
                     case 2:
                         dataType = "cars";
                         dataWriterMenu();
                         if (scanner.hasNextInt()) {
                             userPick = scanner.nextInt();
                             switch (userPick) {
+
                                 case 1:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
@@ -245,11 +262,15 @@ public class Main {
                                                 if (scanner.hasNextInt()) {
                                                     userPick = scanner.nextInt();
                                                     switch (userPick) {
+
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, Car.getComparator());
+                                                            SortingService<Car> carSortingService = new SortingService<>();
+                                                            carSortingService.sortInTwoThreads(new ArrayList<>(data), Car.getComparator(), "автомобилей");
+                                                            carSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
+
                                                         case 2:
                                                             System.out.println("Введите машину, которую хотите найти " +
                                                                     "(Мощность(число), год выпуска, модель)");
@@ -269,6 +290,7 @@ public class Main {
                                                             } else
                                                                 System.out.println("Числовое значение не может быть словом");
                                                             break;
+
                                                         case 0:
                                                             backToMainMenu = true;
                                                             break;
@@ -278,12 +300,13 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 2:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
                                         length = scanner.nextInt();
                                         scanner.nextLine();
-                                        System.out.println("При запонение данных придерживайтесь данного формата: " +
+                                        System.out.println("При заполнении данных придерживайтесь данного формата: " +
                                                 "(Мощность(число), год выпуска, модель)");
                                         System.out.println("Если хотите завершить ввод данных, введите done");
                                         DataProvider dataProvider = new DataProvider(
@@ -297,11 +320,15 @@ public class Main {
                                             if (scanner.hasNextInt()) {
                                                 userPick = scanner.nextInt();
                                                 switch (userPick) {
+
                                                     case 1:
                                                         System.out.println("Отсортированный список:");
-                                                        mergeSort.sort(data, Car.getComparator());
+                                                        SortingService<Car> carSortingService = new SortingService<>();
+                                                        carSortingService.sortInTwoThreads(new ArrayList<>(data), Car.getComparator(), "автомобилей");
+                                                        carSortingService.shutdown();
                                                         System.out.println(data);
                                                         break;
+
                                                     case 2:
                                                         System.out.println("Введите машину, которую хотите найти " +
                                                                 "(Мощность(число), год выпуска, модель)");
@@ -329,6 +356,7 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 3:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
@@ -348,11 +376,15 @@ public class Main {
                                                 if (scanner.hasNextInt()) {
                                                     userPick = scanner.nextInt();
                                                     switch (userPick) {
+
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, Car.getComparator());
+                                                            SortingService<Car> carSortingService = new SortingService<>();
+                                                            carSortingService.sortInTwoThreads(new ArrayList<>(data), Car.getComparator(), "автомобилей");
+                                                            carSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
+
                                                         case 2:
                                                             System.out.println("Введите машину, которую хотите найти " +
                                                                     "(Мощность(число), год выпуска, модель)");
@@ -372,6 +404,7 @@ public class Main {
                                                             } else
                                                                 System.out.println("Числовое значение не может быть словом");
                                                             break;
+
                                                         case 0:
                                                             backToMainMenu = true;
                                                             break;
@@ -381,17 +414,20 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 0:
                                     break;
                             }
                         } else System.out.println("Введите число 0-3");
                         break;
+
                     case 3:
                         dataType = "vegetables";
                         dataWriterMenu();
                         if (scanner.hasNextInt()) {
                             userPick = scanner.nextInt();
                             switch (userPick) {
+
                                 case 1:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
@@ -408,11 +444,15 @@ public class Main {
                                                 if (scanner.hasNextInt()) {
                                                     userPick = scanner.nextInt();
                                                     switch (userPick) {
+
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, RootVegetable.getComparator());
+                                                            SortingService<RootVegetable> vegSortingService = new SortingService<>();
+                                                            vegSortingService.sortInTwoThreads(new ArrayList<>(data), RootVegetable.getComparator(), "корнеплодов");
+                                                            vegSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
+
                                                         case 2:
                                                             System.out.println("Введите корнеплод, который хотите найти " +
                                                                     "(Тип, вес(число), цвет)");
@@ -433,6 +473,7 @@ public class Main {
                                                             } else
                                                                 System.out.println("Числовое значение не может быть словом");
                                                             break;
+
                                                         case 0:
                                                             backToMainMenu = true;
                                                             break;
@@ -442,12 +483,13 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 2:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
                                         length = scanner.nextInt();
                                         scanner.nextLine();
-                                        System.out.println("При запонение данных придерживайтесь данного формата: " +
+                                        System.out.println("При заполнении данных придерживайтесь данного формата: " +
                                                 "(Тип, вес(число), цвет)");
                                         System.out.println("Если хотите завершить ввод данных, введите done");
                                         DataProvider dataProvider = new DataProvider(
@@ -461,11 +503,15 @@ public class Main {
                                             if (scanner.hasNextInt()) {
                                                 userPick = scanner.nextInt();
                                                 switch (userPick) {
+
                                                     case 1:
                                                         System.out.println("Отсортированный список:");
-                                                        mergeSort.sort(data, RootVegetable.getComparator());
+                                                        SortingService<RootVegetable> vegSortingService = new SortingService<>();
+                                                        vegSortingService.sortInTwoThreads(new ArrayList<>(data), RootVegetable.getComparator(), "корнеплодов");
+                                                        vegSortingService.shutdown();
                                                         System.out.println(data);
                                                         break;
+
                                                     case 2:
                                                         System.out.println("Введите корнеплод, который хотите найти " +
                                                                 "(Тип, вес(число), цвет)");
@@ -484,6 +530,7 @@ public class Main {
                                                         } else
                                                             System.out.println("Числовое значение не может быть словом");
                                                         break;
+
                                                     case 0:
                                                         backToMainMenu = true;
                                                         break;
@@ -492,6 +539,7 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 3:
                                     System.out.println("Введите размер списка");
                                     if (scanner.hasNextInt()) {
@@ -511,11 +559,15 @@ public class Main {
                                                 if (scanner.hasNextInt()) {
                                                     userPick = scanner.nextInt();
                                                     switch (userPick) {
+
                                                         case 1:
                                                             System.out.println("Отсортированный список:");
-                                                            mergeSort.sort(data, RootVegetable.getComparator());
+                                                            SortingService<RootVegetable> vegSortingService = new SortingService<>();
+                                                            vegSortingService.sortInTwoThreads(new ArrayList<>(data), RootVegetable.getComparator(), "корнеплодов");
+                                                            vegSortingService.shutdown();
                                                             System.out.println(data);
                                                             break;
+
                                                         case 2:
                                                             System.out.println("Введите корнеплод, который хотите найти " +
                                                                     "(Тип, вес(число), цвет)");
@@ -536,6 +588,7 @@ public class Main {
                                                             } else
                                                                 System.out.println("Числовое значение не может быть словом");
                                                             break;
+
                                                         case 0:
                                                             backToMainMenu = true;
                                                             break;
@@ -545,11 +598,13 @@ public class Main {
                                         }
                                     } else System.out.println("Введите число");
                                     break;
+
                                 case 0:
                                     break;
                             }
                         } else System.out.println("Введите число 0-3");
                         break;
+
                     case 0:
                         runFlag = false;
                         break;
