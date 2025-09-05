@@ -21,7 +21,7 @@ public class ManualDataProviderStrategy implements DataProviderStrategy {
     public List provideData(int length, String dataType) {
         List data = new ArrayList<>();
         String line;
-        while (!(line = scanner.nextLine()).equals("done") && data.size() < length) {
+        while (!(line = scanner.nextLine()).equals("done") && data.size() < length && scanner.hasNextLine()) {
             String[] parameters = line.split(", ");
             switch (dataType) {
                 case "books":
@@ -33,7 +33,7 @@ public class ManualDataProviderStrategy implements DataProviderStrategy {
                                 .build();
                         if (Validator.bookValid(book)) data.add(book);
                         else System.out.println("Проверьте правильность введенных данных");
-                    } else System.out.println("Числовое значение не может быть словом");
+                    } else System.out.println("Некорректные данные");
                     break;
                 case "cars":
                     if (parameters.length == 3 && Validator.checkNumber(parameters[1]) &&
@@ -45,7 +45,7 @@ public class ManualDataProviderStrategy implements DataProviderStrategy {
                                 .build();
                         if (Validator.carValid(car)) data.add(car);
                         else System.out.println("Проверьте правильность введенных данных");
-                    } else System.out.println("Числовое значение не может быть словом");
+                    } else System.out.println("Некорректные данные");
                     break;
                 case "vegetables":
                     if (parameters.length == 3 && Validator.checkDouble(parameters[1])) {
@@ -56,7 +56,7 @@ public class ManualDataProviderStrategy implements DataProviderStrategy {
                                 .build();
                         if (Validator.vegetableValid(rootVegetable)) data.add(rootVegetable);
                         else System.out.println("Проверьте правильность введенных данных");
-                    } else System.out.println("Числовое значение не может быть словом");
+                    } else System.out.println("Некорректные данные");
                     break;
             }
         }

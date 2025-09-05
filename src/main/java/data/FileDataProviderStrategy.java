@@ -31,36 +31,43 @@ public class FileDataProviderStrategy implements DataProviderStrategy {
                     String[] parameters = line.split(", ");
                     switch (dataType) {
                         case "books":
-                            Book book = new Book.BookBuilder()
-                                    .setAuthor(parameters[0])
-                                    .setTitle(parameters[1])
-                                    .setQuantityPage(Integer.parseInt(parameters[2]))
-                                    .build();
-                            if (Validator.bookValid(book)) data.add(book);
-                            else System.out.println("Проверьте правильность данных в файле");
+                            if (parameters.length == 3 && Validator.checkNumber(parameters[2])) {
+                                Book book = new Book.BookBuilder()
+                                        .setAuthor(parameters[0])
+                                        .setTitle(parameters[1])
+                                        .setQuantityPage(Integer.parseInt(parameters[2]))
+                                        .build();
+                                if (Validator.bookValid(book)) data.add(book);
+                                else System.out.println("Проверьте правильность данных в файле");
+                            } else System.out.println("Некорректные данные в строке файла");
                             break;
                         case "cars":
-                            Car car = new Car.CarBuilder()
-                                    .setPower(Double.parseDouble(parameters[0]))
-                                    .setYearOfProduction(Integer.parseInt(parameters[1]))
-                                    .setModel(parameters[2])
-                                    .build();
-                            if (Validator.carValid(car)) data.add(car);
-                            else System.out.println("Проверьте правильность данных в файле");
+                            if (parameters.length == 3 && Validator.checkNumber(parameters[1]) &&
+                                    Validator.checkDouble(parameters[0])) {
+                                Car car = new Car.CarBuilder()
+                                        .setPower(Double.parseDouble(parameters[0]))
+                                        .setYearOfProduction(Integer.parseInt(parameters[1]))
+                                        .setModel(parameters[2])
+                                        .build();
+                                if (Validator.carValid(car)) data.add(car);
+                                else System.out.println("Проверьте правильность данных в файле");
+                            } else System.out.println("Некорректные данные в строке файла");
                             break;
                         case "vegetables":
-                            RootVegetable rootVegetable = new RootVegetable.RootVegetableBuilder()
-                                    .setType(parameters[0])
-                                    .setWeight(Double.parseDouble(parameters[1]))
-                                    .setColor(parameters[2])
-                                    .build();
-                            if (Validator.vegetableValid(rootVegetable)) data.add(rootVegetable);
-                            else System.out.println("Проверьте правильность данных в файле");
+                            if (parameters.length == 3 && Validator.checkDouble(parameters[1])) {
+                                RootVegetable rootVegetable = new RootVegetable.RootVegetableBuilder()
+                                        .setType(parameters[0])
+                                        .setWeight(Double.parseDouble(parameters[1]))
+                                        .setColor(parameters[2])
+                                        .build();
+                                if (Validator.vegetableValid(rootVegetable)) data.add(rootVegetable);
+                                else System.out.println("Проверьте правильность данных в файле");
+                            } else System.out.println("Некорректные данные в строке файла");
                             break;
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("Неверный путь");
             }
         } else {
             System.out.println("Файла не существует");

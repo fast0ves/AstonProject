@@ -124,6 +124,7 @@ public class Main {
                                         scanner.nextLine();
                                         System.out.println("При запонение данных придерживайтесь данного формата: " +
                                                 "(Автор, название, количество страниц)");
+                                        System.out.println("Если хотите завершить ввод данных, введите done");
                                         DataProvider dataProvider = new DataProvider(
                                                 new ManualDataProviderStrategy(scanner));
                                         data = dataProvider.provideData(length, dataType);
@@ -284,6 +285,7 @@ public class Main {
                                         scanner.nextLine();
                                         System.out.println("При запонение данных придерживайтесь данного формата: " +
                                                 "(Мощность(число), год выпуска, модель)");
+                                        System.out.println("Если хотите завершить ввод данных, введите done");
                                         DataProvider dataProvider = new DataProvider(
                                                 new ManualDataProviderStrategy(scanner));
                                         data = dataProvider.provideData(length, dataType);
@@ -447,6 +449,7 @@ public class Main {
                                         scanner.nextLine();
                                         System.out.println("При запонение данных придерживайтесь данного формата: " +
                                                 "(Тип, вес(число), цвет)");
+                                        System.out.println("Если хотите завершить ввод данных, введите done");
                                         DataProvider dataProvider = new DataProvider(
                                                 new ManualDataProviderStrategy(scanner));
                                         data = dataProvider.provideData(length, dataType);
