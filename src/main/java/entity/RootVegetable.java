@@ -27,6 +27,10 @@ public class RootVegetable {
         this.color = rootVegetableBuilder.color;
     }
 
+    public static Comparator getComparator() {
+        return BY_ALL_FIELDS;
+    }
+
     public String getType() {
         return type;
     }

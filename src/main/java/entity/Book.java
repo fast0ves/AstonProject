@@ -23,6 +23,10 @@ public class Book {
         this.quantityPage = bookBuilder.quantityPage;
     }
 
+    public static Comparator<Book> getComparator(){
+        return BY_ALL_FIELDS;
+    }
+
     public String getAuthor() {
         return author;
     }

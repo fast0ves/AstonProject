@@ -1,5 +1,5 @@
 /**
- created by Shorokhov Andrey
+ * created by Shorokhov Andrey
  */
 package validator;
 
@@ -35,5 +35,29 @@ public class Validator {
                 && rootVegetable.getType() != null && !rootVegetable.getType().isBlank()
                 && rootVegetable.getWeight() > 0
                 && rootVegetable.getWeight() <= 10_000;
+    }
+
+    public static boolean checkNumber(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean checkDouble(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

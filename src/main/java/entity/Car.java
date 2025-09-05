@@ -22,6 +22,10 @@ public class Car {
         this.model = carBuilder.model;
     }
 
+    public static Comparator<Car> getComparator(){
+        return BY_ALL_FIELDS;
+    }
+
     public double getPower() {
         return power;
     }
