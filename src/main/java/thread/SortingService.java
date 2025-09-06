@@ -18,6 +18,10 @@ public class SortingService<T> {
     public void sortInTwoThreads(List<T> list, Comparator<T> comparator, String sortName) {
         System.out.println("Начало многопоточной сортировки " + sortName + " в 2 потока");
 
+        if (list == null || comparator == null) {
+            throw new IllegalArgumentException("List и Comparator не могут быть null");
+        }
+
         if (list == null || list.size() <= 1) {
             return;
         }
