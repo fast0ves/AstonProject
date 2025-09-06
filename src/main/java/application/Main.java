@@ -41,11 +41,14 @@ public class Main {
                 switch (userPick) {
                     case 1 -> sortData(data, dataType, comparatorSupplier.get());
                     case 2 -> searchData(data, itemCreator, comparatorSupplier.get());
-                    case 0 -> backToMainMenu = true;
-                    default -> System.out.println("Введите число 0-2");
+                    case 0 -> {
+                        showBackMessage();
+                        backToMainMenu = true;
+                    }
+                    default -> showInvalidChoiceMessage();
                 }
             } else {
-                System.out.println("Введите число");
+                showInvalidChoiceMessage();
                 SCANNER.next();
             }
         }
@@ -62,7 +65,12 @@ public class Main {
     private static <T> void searchData(List<T> data, Supplier<T> builderSupplier, Comparator<T> comparator) {
         T searchItem = createSearchItem(builderSupplier);
         if (searchItem != null) {
-            System.out.println(BINARY_SEARCH.search(data, searchItem, comparator));
+            int result = BINARY_SEARCH.search(data, searchItem, comparator);
+            if (result != -1) {
+                System.out.println("Элемент найден на позиции: " + result);
+            } else {
+                System.out.println("Элемент не найден");
+            }
         }
     }
 
@@ -144,11 +152,14 @@ public class Main {
                             Main::createCarFromInput, Car::getComparator);
                     case 3 -> processDataType("vegetables", PATH_OF_VEGETABLES,
                             Main::createVegetableFromInput, RootVegetable::getComparator);
-                    case 0 -> runFlag = false;
-                    default -> System.out.println("Введите число 0-3");
+                    case 0 -> {
+                        showExitMessage();
+                        runFlag = false;
+                    }
+                    default -> showInvalidChoiceMessage();
                 }
             } else {
-                System.out.println("Введите число");
+                showExitMessage();
                 SCANNER.next();
             }
         }
@@ -167,17 +178,21 @@ public class Main {
                 case 2 -> data = provideData(dataType, filePath, new ManualDataProviderStrategy(SCANNER));
                 case 3 -> data = provideDataFromFile(dataType);
                 case 0 -> {
-
+                    showBackMessage();
                     return;
                 }
-                default -> System.out.println("Введите число 0-3");
+                default -> showInvalidChoiceMessage();
             }
 
             if (data != null && !data.isEmpty()) {
+                showDataTypeHeader(dataType);
+                System.out.println("Данные получены: " + data);
                 processDataWork(data, dataType, itemCreator, comparatorSupplier);
+            } else {
+                System.out.println("Не удалось получить данные или список пуст");
             }
         } else {
-            System.out.println("Введите число");
+            showInvalidChoiceMessage();
             SCANNER.next();
         }
     }
@@ -189,7 +204,7 @@ public class Main {
             DataProvider dataProvider = new DataProvider(strategy);
             return dataProvider.provideData(length, dataType);
         } else {
-            System.out.println("Введите число");
+            showInvalidChoiceMessage();
             SCANNER.next();
 
             return new ArrayList<>();
@@ -204,9 +219,10 @@ public class Main {
             SCANNER.nextLine();
             String filePath = SCANNER.nextLine();
             DataProvider fileDataProvider = new DataProvider(new FileDataProviderStrategy(filePath));
+
             return fileDataProvider.provideData(length, dataType);
         } else {
-            System.out.println("Введите число");
+            showInvalidChoiceMessage();
             SCANNER.next();
 
             return new ArrayList<>();
