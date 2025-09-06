@@ -4,15 +4,15 @@ import interfaces.DataProviderStrategy;
 
 import java.util.List;
 
-public class DataProvider {
+public class DataProvider<T> {
 
-    private DataProviderStrategy<Object> dataProviderStrategy;
+    private DataProviderStrategy<T> dataProviderStrategy;
 
-    public DataProvider(DataProviderStrategy<Object> dataProviderStrategy) {
+    public DataProvider(DataProviderStrategy<T> dataProviderStrategy) {
         this.dataProviderStrategy = dataProviderStrategy;
     }
 
-    public List provideData(int length, String dataType) {
+    public List<T> provideData(int length, String dataType) {
         return dataProviderStrategy.provideData(length, dataType);
     }
 

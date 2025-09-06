@@ -24,6 +24,7 @@ public class BinarySearch<T> {
         if (sortedList == null || key == null || comparator == null) {
             throw new IllegalArgumentException("Параметры не могут быть null");
         }
+
         if (sortedList.isEmpty()) {
 
             return -1;

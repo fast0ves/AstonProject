@@ -29,9 +29,10 @@ public class MergeSort<T> implements SortStrategy<T> {
             throw new IllegalArgumentException("List или Comparator не могут быть null");
         }
 
-        if (list.size() < 2)
+        if (list.size() < 2) {
 
             return;
+        }
 
         int split = list.size() / 2;
         List<T> left = new ArrayList<>(list.subList(0, split));
@@ -49,7 +50,7 @@ public class MergeSort<T> implements SortStrategy<T> {
      * @param right правый отсортированный список
      * @param comparator компаратор для сравнения элементов
      */
-    public void combine(List<T> list, List<T> left, List<T> right, Comparator<T> comparator) {
+    private void combine(List<T> list, List<T> left, List<T> right, Comparator<T> comparator) {
 
         int leftIndex = 0;
         int rightIndex = 0;
