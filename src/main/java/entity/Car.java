@@ -52,8 +52,9 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return (Objects.equals(model, car.getModel()) && yearOfProduction == car.getYearOfProduction() &&
-                Double.valueOf(power).equals(car.getPower()));
+        return (Objects.equals(model, car.getModel())
+                && yearOfProduction == car.getYearOfProduction()
+                && Double.valueOf(power).equals(car.getPower()));
     }
 
     @Override
@@ -91,6 +92,15 @@ public class Car {
         }
 
         public Car build() {
+            if (model == null || model.trim().isEmpty()) {
+                throw new IllegalArgumentException("Model cannot be null or empty");
+            }
+            if (power <= 0) {
+                throw new IllegalArgumentException("Power must be positive");
+            }
+            if (yearOfProduction <= 0) {
+                throw new IllegalArgumentException("Year of production must be positive");
+            }
             return new Car(this);
         }
 

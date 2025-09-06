@@ -53,7 +53,8 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return quantityPage == book.getQuantityPage() && Objects.equals(author, book.getAuthor())
+        return quantityPage == book.getQuantityPage()
+                && Objects.equals(author, book.getAuthor())
                 && Objects.equals(title, book.getTitle());
     }
 
@@ -92,6 +93,15 @@ public class Book {
         }
 
         public Book build() {
+            if (author == null || author.trim().isEmpty()) {
+                throw new IllegalArgumentException("Author cannot be null or empty");
+            }
+            if (title == null || title.trim().isEmpty()) {
+                throw new IllegalArgumentException("Title cannot be null or empty");
+            }
+            if (quantityPage <= 0) {
+                throw new IllegalArgumentException("Quantity page must be positive");
+            }
             return new Book(this);
         }
     }

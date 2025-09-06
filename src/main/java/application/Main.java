@@ -35,6 +35,7 @@ public class Main {
 
         while (!backToMainMenu) {
             dataWorkMenu();
+
             if (SCANNER.hasNextInt()) {
                 int userPick = SCANNER.nextInt();
                 switch (userPick) {
@@ -72,6 +73,7 @@ public class Main {
         String[] parameters = input.split(", ");
 
         if (parameters.length == 3 && Validator.checkNumber(parameters[2])) {
+
             return new Book.BookBuilder()
                     .setAuthor(parameters[0])
                     .setTitle(parameters[1])
@@ -79,6 +81,7 @@ public class Main {
                     .build();
         } else {
             System.out.println("Неверный формат или числовое значение не может быть словом");
+
             return null;
         }
     }
@@ -91,6 +94,7 @@ public class Main {
 
         if (parameters.length == 3 && Validator.checkNumber(parameters[1]) &&
                 Validator.checkDouble(parameters[0])) {
+
             return new Car.CarBuilder()
                     .setPower(Double.parseDouble(parameters[0]))
                     .setYearOfProduction(Integer.parseInt(parameters[1]))
@@ -98,6 +102,7 @@ public class Main {
                     .build();
         } else {
             System.out.println("Неверный формат или числовое значение не может быть словом");
+
             return null;
         }
     }
@@ -109,6 +114,7 @@ public class Main {
         String[] parameters = input.split(", ");
 
         if (parameters.length == 3 && Validator.checkDouble(parameters[1])) {
+
             return new RootVegetable.RootVegetableBuilder()
                     .setType(parameters[0])
                     .setWeight(Double.parseDouble(parameters[1]))
@@ -116,6 +122,7 @@ public class Main {
                     .build();
         } else {
             System.out.println("Неверный формат или числовое значение не может быть словом");
+
             return null;
         }
     }
@@ -148,9 +155,7 @@ public class Main {
         SCANNER.close();
     }
 
-    private static <T> void processDataType(String dataType, String filePath,
-                                            java.util.function.Supplier<T> itemCreator,
-                                            java.util.function.Supplier<java.util.Comparator<T>> comparatorSupplier) {
+    private static <T> void processDataType(String dataType, String filePath, Supplier<T> itemCreator, Supplier<Comparator<T>> comparatorSupplier) {
         dataWriterMenu();
 
         if (SCANNER.hasNextInt()) {
@@ -161,7 +166,10 @@ public class Main {
                 case 1 -> data = provideData(dataType, filePath, new RandomDataProviderStrategy(filePath));
                 case 2 -> data = provideData(dataType, filePath, new ManualDataProviderStrategy(SCANNER));
                 case 3 -> data = provideDataFromFile(dataType);
-                case 0 -> { return; }
+                case 0 -> {
+
+                    return;
+                }
                 default -> System.out.println("Введите число 0-3");
             }
 
@@ -183,6 +191,7 @@ public class Main {
         } else {
             System.out.println("Введите число");
             SCANNER.next();
+
             return new ArrayList<>();
         }
     }
@@ -199,11 +208,13 @@ public class Main {
         } else {
             System.out.println("Введите число");
             SCANNER.next();
+
             return new ArrayList<>();
         }
     }
 
     private static <T> T createSearchItem(Supplier<T> itemCreator) {
+
         return itemCreator.get();
     }
 }
