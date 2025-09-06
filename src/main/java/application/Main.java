@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static application.ApplicationMenu.*;
+
 public class Main {
 
     private static final String pathOfBook = "src" + File.separator + "main" + File.separator + "resources" +
@@ -26,30 +28,6 @@ public class Main {
     private static final String pathOfVegetables = "src" + File.separator + "main" + File.separator
             + "resources" + File.separator + "vegetables";
 
-    private static void mainMenu() {
-        System.out.println("""
-                Выберите с какими данными будем работать:
-                1.Книги
-                2.Машины
-                3.Корнеплоды
-                0.Выход""");
-    }
-
-    private static void dataWriterMenu() {
-        System.out.println("""
-                Как будем заполнять данные?
-                1.Рандомное заполнение данных
-                2.Заполнение вручную вручную
-                3.Заполнеие данных из файла
-                0.Назад""");
-    }
-
-    private static void dataWorkMenu() {
-        System.out.println("""
-                1.Отсортировать данные
-                2.Поиск книги
-                0.Назад""");
-    }
 
     public static void main(String[] args) {
 
@@ -57,7 +35,6 @@ public class Main {
         boolean backToMainMenu = false;
         List data;
         int length;
-        MergeSort mergeSort = new MergeSort<>();
         BinarySearch binarySearch = new BinarySearch();
         while (runFlag) {
             mainMenu();
