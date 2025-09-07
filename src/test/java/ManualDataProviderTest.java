@@ -114,14 +114,14 @@ public class ManualDataProviderTest {
         Assertions.assertEquals(expectedData, data);
     }
 
+
     @Test
-    public void emptyInputData(){
-        List expectedData = new ArrayList<>();
-        String inputData = "\n";
+    public void doneInput() {
+        String inputData = "done";
         Scanner scanner = new Scanner(inputData);
         DataProvider dataProvider = new DataProvider(new ManualDataProviderStrategy(scanner));
-        List data = dataProvider.provideData(23, "books");
+        List data = dataProvider.provideData(3, "cars");
 
-        Assertions.assertEquals(expectedData, data);
+        Assertions.assertTrue(data.isEmpty());
     }
 }

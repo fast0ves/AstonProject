@@ -21,7 +21,9 @@ import java.util.Random;
  */
 public class RandomDataProviderStrategy implements DataProviderStrategy<Object> {
 
-    /** Путь к файлу с данными */
+    /**
+     * Путь к файлу с данными
+     */
     private String filePath;
 
     /**
@@ -38,7 +40,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy<Object> 
      * Считывает все данные из файла, затем случайным образом
      * выбирает необходимое количество записей.
      *
-     * @param length количество записей для получения
+     * @param length   количество записей для получения
      * @param dataType тип данных для получения (books, cars, vegetables)
      * @return список случайно выбранных объектов
      */
@@ -52,53 +54,58 @@ public class RandomDataProviderStrategy implements DataProviderStrategy<Object> 
 
             return data;
         }
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
-                String line;
-                List<String> tempList = new ArrayList<>();
 
-                while ((line = bufferedReader.readLine()) != null) {
-                    tempList.add(line);
-                }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            List<String> tempList = new ArrayList<>();
 
-                while (data.size() < length) {
-                    int randNumberLine = random.nextInt(29);
-                    String[] parameters = tempList.get(randNumberLine).split(", ");
-
-                    switch (dataType) {
-                        case "books":
-                            Book book = new Book.BookBuilder()
-                                    .setAuthor(parameters[0])
-                                    .setTitle(parameters[1])
-                                    .setQuantityPage(Integer.parseInt(parameters[2]))
-                                    .build();
-                            data.add(book);
-                            break;
-
-                        case "cars":
-                            Car car = new Car.CarBuilder()
-                                    .setPower(Double.parseDouble(parameters[0]))
-                                    .setYearOfProduction(Integer.parseInt(parameters[1]))
-                                    .setModel(parameters[2])
-                                    .build();
-                            data.add(car);
-                            break;
-
-                        case "vegetables":
-                            RootVegetable rootVegetable = new RootVegetable.RootVegetableBuilder()
-                                    .setType(parameters[0])
-                                    .setWeight(Double.parseDouble(parameters[1]))
-                                    .setColor(parameters[2])
-                                    .build();
-                            data.add(rootVegetable);
-                            break;
-                        default:
-                            System.out.println("Неизвестный тип данных: " + dataType);
-                    }
-                }
-
-            } catch (IOException e) {
-                System.out.println("Ошибка чтения файла " + e.getMessage());
+            while ((line = bufferedReader.readLine()) != null) {
+                tempList.add(line);
             }
+
+            if (length > tempList.size()) {
+                length = tempList.size();
+            }
+
+            while (data.size() < length) {
+                int randNumberLine = random.nextInt(29);
+                String[] parameters = tempList.get(randNumberLine).split(", ");
+
+                switch (dataType) {
+                    case "books":
+                        Book book = new Book.BookBuilder()
+                                .setAuthor(parameters[0])
+                                .setTitle(parameters[1])
+                                .setQuantityPage(Integer.parseInt(parameters[2]))
+                                .build();
+                        data.add(book);
+                        break;
+
+                    case "cars":
+                        Car car = new Car.CarBuilder()
+                                .setPower(Double.parseDouble(parameters[0]))
+                                .setYearOfProduction(Integer.parseInt(parameters[1]))
+                                .setModel(parameters[2])
+                                .build();
+                        data.add(car);
+                        break;
+
+                    case "vegetables":
+                        RootVegetable rootVegetable = new RootVegetable.RootVegetableBuilder()
+                                .setType(parameters[0])
+                                .setWeight(Double.parseDouble(parameters[1]))
+                                .setColor(parameters[2])
+                                .build();
+                        data.add(rootVegetable);
+                        break;
+                    default:
+                        System.out.println("Неизвестный тип данных: " + dataType);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла " + e.getMessage());
+        }
 
         return data;
     }

@@ -49,12 +49,10 @@ public class FileDataProviderTest {
 
     @Test
     public void incorrectDataInFile() {
-        List expectedData = new ArrayList();
-
         DataProvider dataProvider = new DataProvider(new FileDataProviderStrategy("src/main/resources/books"));
         List data = dataProvider.provideData(3, "cars");
 
-        Assertions.assertEquals(expectedData, data);
+        Assertions.assertTrue(data.isEmpty());
     }
 
     @Test
@@ -63,9 +61,10 @@ public class FileDataProviderTest {
 
         DataProvider dataProvider = new DataProvider(new FileDataProviderStrategy(
                 "src/main/resources/vegetables"));
-        List data = dataProvider.provideData(0, "vegetables");
 
-        Assertions.assertEquals(expectedData, data);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            dataProvider.provideData(0, "vegetables");
+        });
     }
 
     @Test
@@ -83,9 +82,10 @@ public class FileDataProviderTest {
         List expectedData = new ArrayList();
 
         DataProvider dataProvider = new DataProvider(new FileDataProviderStrategy("src/main/resources/cars"));
-        List data = dataProvider.provideData(-1, "cars");
 
-        Assertions.assertEquals(expectedData, data);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            dataProvider.provideData(-1, "cars");
+        });
     }
 
     @Test

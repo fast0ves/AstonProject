@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import validator.Validator;
 
-import javax.swing.border.TitledBorder;
-
 public class ValidatorTest {
 
     @Test
