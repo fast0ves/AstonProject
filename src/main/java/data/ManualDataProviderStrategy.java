@@ -11,13 +11,34 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Реализация стратегии ручного ввода данных.
+ * Класс позволяет пользователю вручную вводить данные через консоль
+ * и создавать соответствующие объекты после валидации.
+ */
 public class ManualDataProviderStrategy implements DataProviderStrategy<Object> {
+
+    /** Объект Scanner для чтения ввода пользователя */
     private Scanner scanner;
 
+    /**
+     * Конструктор класса.
+     *
+     * @param scanner объект Scanner для чтения ввода
+     */
     public ManualDataProviderStrategy(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    /**
+     * Метод для получения данных от пользователя.
+     * Позволяет вводить данные через консоль, создавать объекты
+     * и проверять их валидность.
+     *
+     * @param length максимальное количество записей для ввода
+     * @param dataType тип данных для ввода (books, cars, vegetables)
+     * @return список объектов, созданных из введенных данных
+     */
     @Override
     public List<Object> provideData(int length, String dataType) {
         List<Object> data = new ArrayList<>();

@@ -1,7 +1,14 @@
 package application;
 
+/**
+ * Утилитный класс для отображения меню приложения.
+ * Предоставляет статические методы для отображения различных меню и сообщений.
+ */
 public class ApplicationMenu {
 
+    /**
+     * Отображает главное меню приложения.
+     */
     static void mainMenu() {
         System.out.println("""
                 \\n=== ГЛАВНОЕ МЕНЮ ===
@@ -12,6 +19,9 @@ public class ApplicationMenu {
                 0.Выход""");
     }
 
+    /**
+     * Отображает меню выбора способа заполнения данных.
+     */
      static void dataWriterMenu() {
         System.out.println("""
                 \\n=== ВЫБОР СПОСОБА ЗАПОЛНЕНИЯ ===
@@ -22,6 +32,9 @@ public class ApplicationMenu {
                 0.Назад""");
     }
 
+    /**
+     * Отображает меню работы с данными для конкретного типа.
+     */
     static void dataWorkMenu() {
         System.out.println("""
                 \\n=== РАБОТА С ДАННЫМИ (%s) ===
@@ -30,18 +43,32 @@ public class ApplicationMenu {
                 0.Назад""");
     }
 
+    /**
+     * Отображает сообщение о неверном выборе.
+     */
     public static void showInvalidChoiceMessage() {
         System.out.println("Неверный выбор! Пожалуйста, введите число из предложенных вариантов.");
     }
 
+    /**
+     * Отображает сообщение о выходе из приложения.
+     */
     public static void showExitMessage() {
         System.out.println("Завершение работы приложения");
     }
 
+    /**
+     * Отображает сообщение о возврате в предыдущее меню.
+     */
     public static void showBackMessage() {
         System.out.println("Возврат в предыдущее меню...");
     }
 
+    /**
+     * Отображает заголовок для работы с конкретным типом данных.
+     *
+     * @param dataType тип данных для отображения в заголовке
+     */
     public static void showDataTypeHeader(String dataType) {
         System.out.println("\n=== РАБОТА С " + dataType.toUpperCase() + " ===");
     }

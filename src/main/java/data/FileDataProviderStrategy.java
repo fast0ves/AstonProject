@@ -14,13 +14,33 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация стратегии получения данных из файла.
+ * Класс отвечает за чтение и парсинг данных из текстового файла,
+ * создание соответствующих объектов и их валидацию.
+ */
 public class FileDataProviderStrategy implements DataProviderStrategy<Object> {
+
+    /** Путь к файлу с данными */
     private String filePath;
 
+    /**
+     * Конструктор класса.
+     *
+     * @param filePath путь к файлу с данными
+     */
     public FileDataProviderStrategy(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Метод для получения данных из файла.
+     * Читает данные из файла, парсит их и создает соответствующие объекты.
+     *
+     * @param length максимальное количество записей для чтения
+     * @param dataType тип данных для чтения (books, cars, vegetables)
+     * @return список объектов, созданных из данных файла
+     */
     @Override
     public List provideData(int length, String dataType) {
         List<Object> data = new ArrayList<>();

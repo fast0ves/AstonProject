@@ -1,7 +1,3 @@
-/*
-created by Ivanov Nikita
-*/
-
 package entity;
 
 import java.util.Comparator;

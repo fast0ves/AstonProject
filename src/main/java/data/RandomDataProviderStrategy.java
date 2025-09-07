@@ -14,13 +14,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Реализация стратегии получения случайных данных из файла.
+ * Класс считывает данные из файла и случайным образом выбирает
+ * необходимое количество записей указанного типа.
+ */
 public class RandomDataProviderStrategy implements DataProviderStrategy<Object> {
+
+    /** Путь к файлу с данными */
     private String filePath;
 
+    /**
+     * Конструктор класса.
+     *
+     * @param filePath путь к файлу с данными
+     */
     public RandomDataProviderStrategy(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Метод для получения случайных данных из файла.
+     * Считывает все данные из файла, затем случайным образом
+     * выбирает необходимое количество записей.
+     *
+     * @param length количество записей для получения
+     * @param dataType тип данных для получения (books, cars, vegetables)
+     * @return список случайно выбранных объектов
+     */
     @Override
     public List<Object> provideData(int length, String dataType) {
         List<Object> data = new ArrayList<>();

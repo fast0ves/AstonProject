@@ -18,6 +18,10 @@ import java.util.function.Supplier;
 
 import static application.ApplicationMenu.*;
 
+/**
+ * Главный класс приложения, реализующий консольный интерфейс пользователя.
+ * Координирует работу всех компонентов системы: ввод данных, сортировку, поиск.
+ */
 public class Main {
 
     private static final String PATH_OF_BOOK = "src" + File.separator + "main" + File.separator + "resources" +
@@ -30,6 +34,15 @@ public class Main {
     private static final BinarySearch BINARY_SEARCH = new BinarySearch();
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Обрабатывает работу с данными: сортировку и поиск.
+     *
+     * @param <T> тип обрабатываемых данных
+     * @param data список данных для обработки
+     * @param dataType тип данных (для отображения)
+     * @param itemCreator поставщик объектов для поиска
+     * @param comparatorSupplier поставщик компаратора для сортировки и поиска
+     */
     private static <T> void processDataWork(List<T> data, String dataType, Supplier<T> itemCreator, Supplier<Comparator<T>> comparatorSupplier) {
         boolean backToMainMenu = false;
 
@@ -54,6 +67,14 @@ public class Main {
         }
     }
 
+    /**
+     * Выполняет сортировку данных в многопоточном режиме.
+     *
+     * @param <T> тип сортируемых данных
+     * @param data список данных для сортировки
+     * @param dataType тип данных (для отображения)
+     * @param comparator компаратор для определения порядка сортировки
+     */
     private static <T> void sortData(List<T> data, String dataType, Comparator<T> comparator) {
         System.out.println("Отсортированный список: ");
         SortingService<T> sortingService = new SortingService<>();
@@ -62,6 +83,14 @@ public class Main {
         System.out.println(data);
     }
 
+    /**
+     * Выполняет поиск элемента в отсортированном списке.
+     *
+     * @param <T> тип данных для поиска
+     * @param data отсортированный список данных
+     * @param builderSupplier поставщик объекта для поиска
+     * @param comparator компаратор для сравнения элементов
+     */
     private static <T> void searchData(List<T> data, Supplier<T> builderSupplier, Comparator<T> comparator) {
         T searchItem = createSearchItem(builderSupplier);
         if (searchItem != null) {
@@ -74,6 +103,11 @@ public class Main {
         }
     }
 
+    /**
+     * Создает объект книги на основе пользовательского ввода.
+     *
+     * @return объект книги или null при ошибке ввода
+     */
     private static Book createBookFromInput() {
         System.out.println("Введите книгу для поиска (Автор, название, количество страниц):");
         SCANNER.nextLine();
@@ -94,6 +128,12 @@ public class Main {
         }
     }
 
+
+    /**
+     * Создает объект машины на основе пользовательского ввода.
+     *
+     * @return объект машины или null при ошибке ввода
+     */
     private static Car createCarFromInput() {
         System.out.println("Введите машину для поиска (Мощность, год выпуска, модель):");
         SCANNER.nextLine();
@@ -115,6 +155,11 @@ public class Main {
         }
     }
 
+    /**
+     * Создает объект корнеплода на основе пользовательского ввода.
+     *
+     * @return объект корнеплода или null при ошибке ввода
+     */
     private static RootVegetable createVegetableFromInput() {
         System.out.println("Введите корнеплод для поиска (Тип, вес, цвет):");
         SCANNER.nextLine();
@@ -135,7 +180,11 @@ public class Main {
         }
     }
 
-
+    /**
+     * Главный метод приложения, точка входа.
+     *
+     * @param args аргументы командной строки (не используются)
+     */
     public static void main(String[] args) {
         boolean runFlag = true;
 
@@ -166,6 +215,15 @@ public class Main {
         SCANNER.close();
     }
 
+    /**
+     * Обрабатывает работу с конкретным типом данных.
+     *
+     * @param <T> тип обрабатываемых данных
+     * @param dataType тип данных
+     * @param filePath путь к файлу с данными
+     * @param itemCreator поставщик объектов для поиска
+     * @param comparatorSupplier поставщик компаратора
+     */
     private static <T> void processDataType(String dataType, String filePath, Supplier<T> itemCreator, Supplier<Comparator<T>> comparatorSupplier) {
         dataWriterMenu();
 
@@ -197,6 +255,14 @@ public class Main {
         }
     }
 
+    /**
+     * Предоставляет данные через указанную стратегию.
+     *
+     * @param <T> тип предоставляемых данных
+     * @param dataType тип данных
+     * @param strategy стратегия предоставления данных
+     * @return список данных
+     */
     private static <T> List<T> provideData(String dataType, String filePath, DataProviderStrategy strategy) {
         System.out.println("Введите размер списка:");
         if (SCANNER.hasNextInt()) {
@@ -211,6 +277,13 @@ public class Main {
         }
     }
 
+    /**
+     * Предоставляет данные из файла.
+     *
+     * @param <T> тип предоставляемых данных
+     * @param dataType тип данных
+     * @return список данных из файла
+     */
     private static <T> List<T> provideDataFromFile(String dataType) {
         System.out.println("Введите размер списка:");
         if (SCANNER.hasNextInt()) {
@@ -229,6 +302,13 @@ public class Main {
         }
     }
 
+    /**
+     * Создает объект для поиска через поставщика.
+     *
+     * @param <T> тип создаваемого объекта
+     * @param itemCreator поставщик объектов
+     * @return созданный объект
+     */
     private static <T> T createSearchItem(Supplier<T> itemCreator) {
 
         return itemCreator.get();

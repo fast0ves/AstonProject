@@ -1,6 +1,3 @@
-/**
- created by Shorokhov Andrey
- */
 package algorithm;
 
 import interfaces.SortStrategy;
@@ -9,19 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Реализация алгоритма сортировки слиянием (MergeSort)
- * Этот класс реализует паттерн Стратегия через интерфейс SortStrategy
+ * Реализация алгоритма сортировки слиянием (MergeSort).
+ * Этот класс реализует паттерн Стратегия через интерфейс SortStrategy.
+ * Использует рекурсивный подход для разделения и объединения элементов.
  *
  * @param <T> тип элементов в сортируемом списке
  */
-
 public class MergeSort<T> implements SortStrategy<T> {
 
     /**
-     * Сортирует переданный список с использованием алгоритма сортировки слиянием
+     * Сортирует список с использованием алгоритма сортировки слиянием.
+     * Время выполнения: O(n log n) в худшем, среднем и лучшем случаях.
      *
-     * @param list список для сортировки
-     * @param comparator компаратор, определяющий порядок сортировки
+     * @param list список для сортировки (не может быть null)
+     * @param comparator компаратор, определяющий порядок сортировки (не может быть null)
+     * @throws IllegalArgumentException если list или comparator null
      */
     @Override
     public void sort(List<T> list, Comparator<T> comparator) {
@@ -44,7 +43,9 @@ public class MergeSort<T> implements SortStrategy<T> {
     }
 
     /**
-     * Объединяет два отсортированных списка в один отсортированный список
+     * Сливает два отсортированных списка в один отсортированный список.
+     * Вспомогательный метод для алгоритма сортировки слиянием.
+     *
      * @param list результирующий список для объединения
      * @param left левый отсортированный список
      * @param right правый отсортированный список
