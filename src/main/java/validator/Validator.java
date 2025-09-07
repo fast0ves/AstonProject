@@ -1,6 +1,3 @@
-/**
- * created by Shorokhov Andrey
- */
 package validator;
 
 import entity.Book;

@@ -1,7 +1,3 @@
-/*
-created by Ivanov Nikita
-*/
-
 package entity;
 
 import java.util.Comparator;
@@ -27,7 +23,7 @@ public class RootVegetable {
         this.color = rootVegetableBuilder.color;
     }
 
-    public static Comparator getComparator() {
+    public static Comparator<RootVegetable> getComparator() {
         return BY_ALL_FIELDS;
     }
 
@@ -96,6 +92,15 @@ public class RootVegetable {
         }
 
         public RootVegetable build() {
+            if (type == null || type.trim().isEmpty()) {
+                throw new IllegalArgumentException("Type cannot be null or empty");
+            }
+            if (weight <= 0) {
+                throw new IllegalArgumentException("Weight must be positive");
+            }
+            if (color == null || color.trim().isEmpty()) {
+                throw new IllegalArgumentException("Color cannot be null or empty");
+            }
             return new RootVegetable(this);
         }
     }
