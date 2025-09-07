@@ -607,6 +607,7 @@ public class Main {
 
                     case 0:
                         runFlag = false;
+                        scanner.close();
                         break;
                 }
             } else System.out.println("Введите число 0-3");
