@@ -1,29 +1,28 @@
-/**
- created by Shorokhov Andrey
- */
 package algorithm;
 
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * Универсальная реализация бинарного поиска для отсортированных коллекций.
- * Работает с любыми типами данных через компаратор
+ * Универсальная реализация алгоритма бинарного поиска для отсортированных коллекций.
+ * Поддерживает поиск элементов любого типа с использованием компаратора.
  */
 public class BinarySearch<T> {
 
     /**
-     * Итеративная реализация бинарного поиска
+     * Выполняет итеративный бинарный поиск в отсортированном списке.
      *
-     * @param sortedList отсортированный список
-     * @param key искомый элемент
-     * @param comparator компаратор для сравнения элементов
-     * @return индекс элемента или -1 если не найден
+     * @param sortedList отсортированный список для поиска (не может быть null)
+     * @param key искомый элемент (не может быть null)
+     * @param comparator компаратор для сравнения элементов (не может быть null)
+     * @return индекс элемента в списке или -1 если элемент не найден
+     * @throws IllegalArgumentException если любой из параметров null
      */
     public int search(List<T> sortedList, T key, Comparator<T> comparator) {
         if (sortedList == null || key == null || comparator == null) {
             throw new IllegalArgumentException("Параметры не могут быть null");
         }
+
         if (sortedList.isEmpty()) {
 
             return -1;
