@@ -8,7 +8,6 @@ import validator.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -18,7 +17,9 @@ import java.util.Scanner;
  */
 public class ManualDataProviderStrategy implements DataProviderStrategy<Object> {
 
-    /** Объект Scanner для чтения ввода пользователя */
+    /**
+     * Объект Scanner для чтения ввода пользователя
+     */
     private Scanner scanner;
 
     /**
@@ -35,7 +36,7 @@ public class ManualDataProviderStrategy implements DataProviderStrategy<Object> 
      * Позволяет вводить данные через консоль, создавать объекты
      * и проверять их валидность.
      *
-     * @param length максимальное количество записей для ввода
+     * @param length   максимальное количество записей для ввода
      * @param dataType тип данных для ввода (books, cars, vegetables)
      * @return список объектов, созданных из введенных данных
      */
@@ -108,14 +109,14 @@ public class ManualDataProviderStrategy implements DataProviderStrategy<Object> 
                             data.add(rootVegetable);
                             System.out.println("Корнеплод добавлен: " + rootVegetable);
                         } else {
-                                System.out.println("Проверьте правильность введенных данных");
+                            System.out.println("Проверьте правильность введенных данных");
                         }
-                        } else {
-                            System.out.println("Вес должен быть числом");
-                        }
-                        break;
-                        default:
-                            System.out.println("Неизвестный тип данных: " + dataType);
+                    } else {
+                        System.out.println("Вес должен быть числом");
+                    }
+                    break;
+                default:
+                    System.out.println("Неизвестный тип данных: " + dataType);
             }
         }
         return data;

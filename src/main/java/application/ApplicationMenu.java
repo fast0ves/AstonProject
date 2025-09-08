@@ -11,7 +11,7 @@ public class ApplicationMenu {
      */
     static void mainMenu() {
         System.out.println("""
-                \\n=== ГЛАВНОЕ МЕНЮ ===
+                === ГЛАВНОЕ МЕНЮ ===
                 Выберите с какими данными будем работать:
                 1.Книги
                 2.Машины
@@ -24,7 +24,7 @@ public class ApplicationMenu {
      */
      static void dataWriterMenu() {
         System.out.println("""
-                \\n=== ВЫБОР СПОСОБА ЗАПОЛНЕНИЯ ===
+                === ВЫБОР СПОСОБА ЗАПОЛНЕНИЯ ===
                 Как будем заполнять данные?
                 1.Рандомное заполнение данных
                 2.Заполнение вручную вручную
@@ -37,7 +37,7 @@ public class ApplicationMenu {
      */
     static void dataWorkMenu() {
         System.out.println("""
-                \\n=== РАБОТА С ДАННЫМИ (%s) ===
+                === РАБОТА С ДАННЫМИ (%s) ===
                 1.Отсортировать данные
                 2.Поиск книги
                 0.Назад""");
@@ -70,7 +70,7 @@ public class ApplicationMenu {
      * @param dataType тип данных для отображения в заголовке
      */
     public static void showDataTypeHeader(String dataType) {
-        System.out.println("\n=== РАБОТА С " + dataType.toUpperCase() + " ===");
+        System.out.println("=== РАБОТА С " + dataType.toUpperCase() + " ===");
     }
 
 }
