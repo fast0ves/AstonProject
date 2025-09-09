@@ -35,9 +35,9 @@ public class ApplicationMenu {
     /**
      * Отображает меню работы с данными для конкретного типа.
      */
-    static void dataWorkMenu() {
+    static void dataWorkMenu(String dataType) {
         System.out.println("""
-                === РАБОТА С ДАННЫМИ (%s) ===
+                === РАБОТА С ДАННЫМИ ===
                 1.Отсортировать данные
                 2.Поиск книги
                 0.Назад""");

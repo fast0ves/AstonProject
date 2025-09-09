@@ -38,23 +38,25 @@ public class Main {
     /**
      * Обрабатывает работу с данными: сортировку и поиск.
      *
-     * @param <T> тип обрабатываемых данных
-     * @param data список данных для обработки
-     * @param dataType тип данных (для отображения)
-     * @param itemCreator поставщик объектов для поиска
+     * @param <T>                тип обрабатываемых данных
+     * @param data               список данных для обработки
+     * @param dataType           тип данных (для отображения)
+     * @param itemCreator        поставщик объектов для поиска
      * @param comparatorSupplier поставщик компаратора для сортировки и поиска
      */
     private static <T> void processDataWork(List<T> data, String dataType, Supplier<T> itemCreator, Supplier<Comparator<T>> comparatorSupplier) {
         boolean backToMainMenu = false;
 
+        int writeMode = getFileWriteMode();
+
         while (!backToMainMenu) {
-            dataWorkMenu();
+            dataWorkMenu(dataType);
 
             if (SCANNER.hasNextInt()) {
                 int userPick = SCANNER.nextInt();
                 switch (userPick) {
-                    case 1 -> sortData(data, dataType, comparatorSupplier.get());
-                    case 2 -> searchData(data, itemCreator, comparatorSupplier.get());
+                    case 1 -> sortData(data, dataType, comparatorSupplier.get(), writeMode);
+                    case 2 -> searchData(data, itemCreator, comparatorSupplier.get(), writeMode);
                     case 0 -> {
                         showBackMessage();
                         backToMainMenu = true;
@@ -73,21 +75,28 @@ public class Main {
      * Результаты сортировки автоматически записываются в файл sorted_[dataType].txt
      * в режиме добавления данных.
      *
-     * @param <T> тип сортируемых данных
-     * @param data список данных для сортировки
-     * @param dataType тип данных (для отображения и именования файла)
+     * @param <T>        тип сортируемых данных
+     * @param data       список данных для сортировки
+     * @param dataType   тип данных (для отображения и именования файла)
      * @param comparator компаратор для определения порядка сортировки
      */
-    private static <T> void sortData(List<T> data, String dataType, Comparator<T> comparator) {
+    private static <T> void sortData(List<T> data, String dataType, Comparator<T> comparator, int writeMode) {
         System.out.println("Отсортированный список: ");
         SortingService<T> sortingService = new SortingService<>();
         sortingService.sortInTwoThreads(new ArrayList<>(data), comparator, dataType);
         sortingService.shutdown();
         System.out.println(data);
 
-        String filename = "sorted_" + dataType + ".txt";
-        FileWriterService.writeToFile(data, filename, true);
-        ApplicationMenu.showFileWriteSuccess(filename);
+        if (writeMode != 0) {
+            String filename = "sorted_" + dataType + ".txt";
+            boolean append = (writeMode == 2);
+            try {
+                FileWriterService.writeToFile(data, filename, append);
+                showFileWriteSuccess(filename);
+            } catch (Exception e) {
+                showFileWriteError(filename, e.getMessage());
+            }
+        }
     }
 
     /**
@@ -95,12 +104,13 @@ public class Main {
      * Результаты поиска автоматически записываются в файл search_results.txt
      * в режиме добавления данных.
      *
-     * @param <T> тип данных для поиска
-     * @param data отсортированный список данных
+     * @param <T>             тип данных для поиска
+     * @param data            отсортированный список данных
      * @param builderSupplier поставщик объекта для поиска
-     * @param comparator компаратор для сравнения элементов
+     * @param comparator      компаратор для сравнения элементов
+     * @param writeMode
      */
-    private static <T> void searchData(List<T> data, Supplier<T> builderSupplier, Comparator<T> comparator) {
+    private static <T> void searchData(List<T> data, Supplier<T> builderSupplier, Comparator<T> comparator, int writeMode) {
         T searchItem = createSearchItem(builderSupplier);
         if (searchItem != null) {
             int result = BINARY_SEARCH.search(data, searchItem, comparator);
@@ -111,7 +121,7 @@ public class Main {
                 String filename = "search_results.txt";
                 FileWriterService.writeStringToFile(message, filename, true);
                 FileWriterService.writeToFile(searchItem, filename, true);
-            } else  {
+            } else {
                 String message = "Элемент не найден: " + searchItem;
                 System.out.println(message);
 
@@ -236,10 +246,10 @@ public class Main {
     /**
      * Обрабатывает работу с конкретным типом данных.
      *
-     * @param <T> тип обрабатываемых данных
-     * @param dataType тип данных
-     * @param filePath путь к файлу с данными
-     * @param itemCreator поставщик объектов для поиска
+     * @param <T>                тип обрабатываемых данных
+     * @param dataType           тип данных
+     * @param filePath           путь к файлу с данными
+     * @param itemCreator        поставщик объектов для поиска
      * @param comparatorSupplier поставщик компаратора
      */
     private static <T> void processDataType(String dataType, String filePath, Supplier<T> itemCreator, Supplier<Comparator<T>> comparatorSupplier) {
@@ -276,7 +286,7 @@ public class Main {
     /**
      * Предоставляет данные через указанную стратегию.
      *
-     * @param <T> тип предоставляемых данных
+     * @param <T>      тип предоставляемых данных
      * @param dataType тип данных
      * @param strategy стратегия предоставления данных
      * @return список данных
@@ -298,7 +308,7 @@ public class Main {
     /**
      * Предоставляет данные из файла.
      *
-     * @param <T> тип предоставляемых данных
+     * @param <T>      тип предоставляемых данных
      * @param dataType тип данных
      * @return список данных из файла
      */
@@ -323,12 +333,32 @@ public class Main {
     /**
      * Создает объект для поиска через поставщика.
      *
-     * @param <T> тип создаваемого объекта
+     * @param <T>         тип создаваемого объекта
      * @param itemCreator поставщик объектов
      * @return созданный объект
      */
     private static <T> T createSearchItem(Supplier<T> itemCreator) {
 
         return itemCreator.get();
+    }
+
+    /**
+     * Запрашивает у пользователя режим записи результатов в файл.
+     *
+     * @return 1 - новый файл, 2 - добавление, 0 - не записывать
+     */
+    private static int getFileWriteMode() {
+        showFileWriteMenu();
+
+        if (SCANNER.hasNextInt()) {
+            int choice = SCANNER.nextInt();
+            if (choice >= 0 && choice <= 2) {
+                return choice;
+            }
+        }
+
+        showInvalidChoiceMessage();
+        SCANNER.next();
+        return 2;
     }
 }
