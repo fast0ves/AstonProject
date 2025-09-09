@@ -69,11 +69,13 @@ public class Main {
     }
 
     /**
-     * Выполняет сортировку данных в многопоточном режиме.
+     * Выполняет сортировку данных в многопоточном режиме и сохраняет результаты в файл.
+     * Результаты сортировки автоматически записываются в файл sorted_[dataType].txt
+     * в режиме добавления данных.
      *
      * @param <T> тип сортируемых данных
      * @param data список данных для сортировки
-     * @param dataType тип данных (для отображения)
+     * @param dataType тип данных (для отображения и именования файла)
      * @param comparator компаратор для определения порядка сортировки
      */
     private static <T> void sortData(List<T> data, String dataType, Comparator<T> comparator) {
@@ -85,11 +87,13 @@ public class Main {
 
         String filename = "sorted_" + dataType + ".txt";
         FileWriterService.writeToFile(data, filename, true);
-        System.out.println("Результаты сортировки сохранены в файл: " + filename);
+        ApplicationMenu.showFileWriteSuccess(filename);
     }
 
     /**
-     * Выполняет поиск элемента в отсортированном списке.
+     * Выполняет поиск элемента в отсортированном списке и сохраняет результаты в файл.
+     * Результаты поиска автоматически записываются в файл search_results.txt
+     * в режиме добавления данных.
      *
      * @param <T> тип данных для поиска
      * @param data отсортированный список данных
@@ -112,6 +116,7 @@ public class Main {
                 System.out.println(message);
 
                 FileWriterService.writeStringToFile(message, "search_results.txt", true);
+                ApplicationMenu.showFileWriteSuccess("search_results.txt");
             }
         }
     }
