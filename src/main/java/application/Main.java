@@ -11,6 +11,7 @@ import entity.RootVegetable;
 import interfaces.DataProviderStrategy;
 import thread.SortingService;
 import validator.Validator;
+import thread.FileWriterService;
 
 import java.io.File;
 import java.util.*;
@@ -81,6 +82,10 @@ public class Main {
         sortingService.sortInTwoThreads(new ArrayList<>(data), comparator, dataType);
         sortingService.shutdown();
         System.out.println(data);
+
+        String filename = "sorted_" + dataType + ".txt";
+        FileWriterService.writeToFile(data, filename, true);
+        System.out.println("Результаты сортировки сохранены в файл: " + filename);
     }
 
     /**
@@ -96,9 +101,17 @@ public class Main {
         if (searchItem != null) {
             int result = BINARY_SEARCH.search(data, searchItem, comparator);
             if (result != -1) {
-                System.out.println("Элемент найден на позиции: " + result);
-            } else {
-                System.out.println("Элемент не найден");
+                String message = "Элемент не найден на позиции: " + result;
+                System.out.println(message);
+
+                String filename = "search_results.txt";
+                FileWriterService.writeStringToFile(message, filename, true);
+                FileWriterService.writeToFile(searchItem, filename, true);
+            } else  {
+                String message = "Элемент не найден: " + searchItem;
+                System.out.println(message);
+
+                FileWriterService.writeStringToFile(message, "search_results.txt", true);
             }
         }
     }
