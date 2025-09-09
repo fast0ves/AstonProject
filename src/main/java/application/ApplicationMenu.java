@@ -35,9 +35,9 @@ public class ApplicationMenu {
     /**
      * Отображает меню работы с данными для конкретного типа.
      */
-    static void dataWorkMenu() {
+    static void dataWorkMenu(String dataType) {
         System.out.println("""
-                === РАБОТА С ДАННЫМИ (%s) ===
+                === РАБОТА С ДАННЫМИ ===
                 1.Отсортировать данные
                 2.Поиск книги
                 0.Назад""");
@@ -71,6 +71,36 @@ public class ApplicationMenu {
      */
     public static void showDataTypeHeader(String dataType) {
         System.out.println("=== РАБОТА С " + dataType.toUpperCase() + " ===");
+    }
+
+    /**
+     * Отображает меню опций записи в файл.
+     */
+    public static void showFileWriteMenu() {
+        System.out.println("""
+            === ОПЦИИ ЗАПИСИ В ФАЙЛ ===
+            1. Записать результаты в новый файл
+            2. Добавить результаты к существующему файлу
+            0. Не записывать в файл""");
+    }
+
+    /**
+     * Отображает сообщение об успешной записи в файл.
+     *
+     * @param filename имя файла
+     */
+    public static void showFileWriteSuccess(String filename) {
+        System.out.println("Результаты успешно сохранены в файл: " + filename);
+    }
+
+    /**
+     * Отображает сообщение об ошибке записи в файл.
+     *
+     * @param filename имя файла
+     * @param errorMessage сообщение об ошибке
+     */
+    public static void showFileWriteError(String filename, String errorMessage) {
+        System.out.println("Ошибка записи в файл '" + filename + "': " + errorMessage);
     }
 
 }
